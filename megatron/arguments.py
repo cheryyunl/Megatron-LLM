@@ -480,8 +480,8 @@ def _add_network_size_args(parser):
     group.add_argument("--sliding_window_size", type=int, default=None,
                        help="Whether to use sliding window attention for Mistral. Default is None, which means no sliding window attention.")
     # Added for MultimodalMistral
-    group.add_argument("--vision_patch_size", type=int, default=None,
-                       help="Size (in pixels) of the vision patch.")
+    group.add_argument("--point_patch_size", type=int, default=None,
+                       help="Size (in pixels) of the point patch.")
     return parser
 
 

@@ -126,8 +126,8 @@ def save_checkpoint(queue, args):
         sys.argv += ["--no_tie_embed_logits"]
     if md.lima_dropout:
         sys.argv += ["--lima_dropout"]
-    if md.vision_patch_size:
-        sys.argv += ["--vision_patch_size", str(md.vision_patch_size)]
+    if md.point_patch_size:
+        sys.argv += ["--point_patch_size", str(md.point_patch_size)]
     if md.make_vocab_size_divisible_by is not None:
         sys.argv.extend(['--make_vocab_size_divisible_by', str(md.make_vocab_size_divisible_by)])
     if md.params_dtype == torch.float16:
@@ -257,17 +257,17 @@ def save_checkpoint(queue, args):
             print(f"lm_head shape {model.language_model.lm_head.shape}")
             model.language_model.lm_head.data.copy_(out_lm_head[tp_rank])
 
-    # Get vision embed, if available
-    if md.vision_patch_size is not None:
-        # pass along vision embed
-        embed_vision_patch = queue_get("embed_vision_patch").pop("embed_vision_patch")
-        out_embed_vision_patch = torch.chunk(
-            embed_vision_patch, args.target_tensor_parallel_size, dim=0
+    # Get point embed, if available
+    if md.point_patch_size is not None:
+        # pass along point embed
+        embed_point_patch = queue_get("embed_point_patch").pop("embed_point_patch")
+        out_embed_point_patch = torch.chunk(
+            embed_point_patch, args.target_tensor_parallel_size, dim=0
         )
         for tp_rank, model in enumerate(models):
-            print(f"embed_vision_patch shape {model.language_model.embed_vision_patch.weight.shape}")
-            print(f"out_embed_vision_patch shape {out_embed_vision_patch[tp_rank].shape}")
-            model.language_model.embed_vision_patch.weight.data.copy_(out_embed_vision_patch[tp_rank])
+            print(f"embed_point_patch shape {model.language_model.embed_point_patch.weight.shape}")
+            print(f"out_embed_point_patch shape {out_embed_point_patch[tp_rank].shape}")
+            model.language_model.embed_point_patch.weight.data.copy_(out_embed_point_patch[tp_rank])
 
 
     # Transformer layers

@@ -17,6 +17,7 @@ class MultimodalMistralModel(GPTModel):
                  ):
 
         args = get_args()
+        print("Available attributes:", dir(args))
 
         # mandatory arguments
         assert args.position_embedding_type == PositionEmbeddingType.rotary, \
@@ -28,7 +29,7 @@ class MultimodalMistralModel(GPTModel):
         assert args.use_rms_norm, "Multimodal Mistral uses rms_norm"
         assert not args.tie_embed_logits , "Multimodal Mistral unties embedding and lm_head weights"
         assert args.sliding_window_size == 4096, "Multimodal Mistral uses sliding window attention (sliding_window=4096)"
-        assert args.vision_patch_size == 32, "Multimodal Mistral uses vision_patch_size=32"
+        assert args.point_patch_size == 512, "Multimodal Mistral uses point_patch_size=512"
 
         # recomended arguments
         if not args.use_flash_attn:

@@ -86,8 +86,8 @@ def get_batch(data_iterator):
         keys = ["text", "attention_mask", "position_ids"]
         float_keys = ["loss_mask"]
     elif args.data_type == "multimodal_instruction":
-        keys = ["text", "attention_mask", "position_ids", "vision_patch_indices"]
-        float_keys = ["loss_mask", "vision_patches"]
+        keys = ["text", "attention_mask", "position_ids", "point_patch_indices"]
+        float_keys = ["loss_mask", "point_patches"]
     else:
         raise KeyError(f"Unknown dataset type {args.data_type}")
 
@@ -140,9 +140,9 @@ def get_batch(data_iterator):
     if args.data_type == "instruction":
         return tokens, labels, loss_mask, attention_mask, position_ids
 
-    vision_patch_indices = data_b["vision_patch_indices"].to(tokens.device)
-    vision_patches = data_b["vision_patches"].to(args.params_dtype).to(tokens.device)
-    return tokens, labels, loss_mask, attention_mask, position_ids, vision_patch_indices, vision_patches
+    point_patch_indices = data_b["point_patch_indices"].to(tokens.device)
+    point_patches = data_b["point_patches"].to(args.params_dtype).to(tokens.device)
+    return tokens, labels, loss_mask, attention_mask, position_ids, point_patch_indices, point_patches
 
 
 def data_provider(train_val_test_num_samples):
@@ -185,8 +185,8 @@ def loss_func(is_training, batch, outputs):
     losses = losses.float()
 
     if len(batch) == 7:
-        tokens, labels, loss_mask, attention_mask, position_ids, vision_patch_indices, vision_patches = batch
-        is_image_token = vision_patch_indices != -1
+        tokens, labels, loss_mask, attention_mask, position_ids, point_patch_indices, point_patches = batch
+        is_image_token = point_patch_indices != -1
         is_image_example = is_image_token.any(dim=1)
 
         img_loss = torch.sum(losses[is_image_example].view(-1) * loss_mask[is_image_example].view(-1))
@@ -229,7 +229,7 @@ def forward_step(data_iterator, model):
     batch = get_batch(data_iterator)
 
     if args.data_type == "multimodal_instruction":
-        tokens, labels, loss_mask, attention_mask, position_ids, vision_patch_indices, vision_patches = batch
+        tokens, labels, loss_mask, attention_mask, position_ids, point_patch_indices, point_patches = batch
 
         if not forward_step.first_batch_printed:
             print_rank_0("First batch:")
@@ -240,18 +240,18 @@ def forward_step(data_iterator, model):
             print_rank_0(f"loss_mask: {loss_mask[:, :]}")
             print_rank_0(f"attention_mask: {attention_mask[:, :]}")
             print_rank_0(f"position_ids: {position_ids[:, :]}")
-            print_rank_0(f"vision_patch_indices: {vision_patch_indices[:, :]}")
-            print_rank_0(f"vision_patches: {vision_patches}")
+            print_rank_0(f"point_patch_indices: {point_patch_indices[:, :]}")
+            print_rank_0(f"point_patches: {point_patches}")
             # print where loss_mask is not 0
             print_rank_0(f"tokens M: {tokens[:, loss_mask[0] == 1]}")
             print_rank_0(f"labels M: {labels[:, loss_mask[0] == 1]}")
-            print_rank_0(f"vision_patch_indices M: {vision_patch_indices[:, loss_mask[0] == 1]}")
+            print_rank_0(f"point_patch_indices M: {point_patch_indices[:, loss_mask[0] == 1]}")
             forward_step.first_batch_printed = True
 
         timers("batch-generator").stop()
         output_tensor = model(tokens, position_ids, attention_mask,
-                              vision_patch_indices=vision_patch_indices,
-                              vision_patches=vision_patches,
+                              point_patch_indices=point_patch_indices,
+                              point_patches=point_patches,
                               labels=labels)
     else:
         tokens, labels, loss_mask, attention_mask, position_ids = batch
@@ -317,7 +317,7 @@ if __name__ == "__main__":
             scalar_loss_mask=args.scalar_loss_mask,
             return_attention_mask_in_length=return_attention_mask_in_length,
             loss_role=args.loss_role,
-            vision_patch_size=args.vision_patch_size,
+            point_patch_size=args.point_patch_size,
         )
         print_rank_0(f"Loss role set to {args.loss_role} for instruction dataset")
 

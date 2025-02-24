@@ -256,10 +256,10 @@ def mistral_to_megatron(
     ret = {"embedding": embedding, "transformer": transformer,
             "lm_head": lm_head}
     if multimodal:
-        embed_vision_patch = {
-            "weight": weights["model.embed_vision_patch.weight"]
+        embed_point_patch = {
+            "weight": weights["model.embed_point_patch.weight"]
         }
-        ret["embed_vision_patch"] = embed_vision_patch
+        ret["embed_point_patch"] = embed_point_patch
     return ret
 
 
@@ -291,8 +291,8 @@ def main(model_name: str = "falcon", size: int = 7, out: Optional[Path] = None,
         #                                             trust_remote_code=True,
         #                                             cache_dir=cache_dir)
         # from scripts/model/modeling_multimodal_mistral.py
-        from scripts.model.modeling_solo import SoloForCausalLM
-        model = SoloForCausalLM.from_pretrained(model_path,
+        from scripts.model.modeling_intj import INTJForCausalLM
+        model = INTJForCausalLM.from_pretrained(model_path,
                                                         trust_remote_code=True,
                                                         cache_dir=cache_dir,
                                                         ignore_mismatched_sizes=True)
@@ -359,8 +359,8 @@ def main(model_name: str = "falcon", size: int = 7, out: Optional[Path] = None,
             "sliding_window_size": 4096,
         }
         if model_name == "multimodal_mistral":
-            args["vision_patch_size"] = 32
-            # 32000 + 5 (reserved vision token) + 1024 (location tokens)
+            args["point_patch_size"] = 512
+            # 32000 + 5 (reserved token) + 1024 (location tokens)
             args["padded_vocab_size"] = math.ceil(33029 / 128) * 128
     else:  # llama1, llama2, codellama
         args = {"num_layers": llama_s2layer[size],
