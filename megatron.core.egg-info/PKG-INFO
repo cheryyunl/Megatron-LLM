@@ -1,0 +1,7 @@
+Metadata-Version: 2.2
+Name: megatron.core
+Version: 0.1
+Summary: Core components of Megatron.
+License-File: LICENSE
+License-File: AUTHORS
+Dynamic: summary

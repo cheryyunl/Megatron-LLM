@@ -1,0 +1,16 @@
+AUTHORS
+LICENSE
+README.md
+setup.py
+megatron.core.egg-info/PKG-INFO
+megatron.core.egg-info/SOURCES.txt
+megatron.core.egg-info/dependency_links.txt
+megatron.core.egg-info/top_level.txt
+tests/test_activations.py
+tests/test_basic.py
+tests/test_layernorm_order.py
+tests/test_llama_weights.py
+tests/test_parallel_state.py
+tests/test_utilities.py
+tests/test_utils.py
+tests/test_wandb.py
