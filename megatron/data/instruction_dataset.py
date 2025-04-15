@@ -22,6 +22,7 @@ class Role(IntEnum):
     user = 1
     assistant = 2
     image = 3
+    pointcloud = 4
     PACK_SEP = 1000  # This is used to separate two conversations packed together in to one sample
 
 
