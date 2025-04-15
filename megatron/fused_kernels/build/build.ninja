@@ -1,13 +1,13 @@
 ninja_required_version = 1.3
-cxx = c++
-nvcc = /opt/nvidia/hpc_sdk/Linux_x86_64/24.5/cuda/12.4/bin/nvcc
+cxx = /sw/spack/deltas11-2023-03/apps/linux-rhel8-x86_64/gcc-8.5.0/gcc-11.4.0-yycklku/bin/g++
+nvcc = /sw/spack/deltas11-2023-03/apps/linux-rhel8-zen3/gcc-11.4.0/cuda-11.8.0-vfixfmc/bin/nvcc
 
-cflags = -DTORCH_EXTENSION_NAME=fused_dense_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/TH -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/THC -isystem /opt/nvidia/hpc_sdk/Linux_x86_64/24.5/cuda/12.4/include -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -fPIC -std=c++17 -O3
+cflags = -DTORCH_EXTENSION_NAME=fused_dense_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/TH -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/THC -isystem /sw/spack/deltas11-2023-03/apps/linux-rhel8-zen3/gcc-11.4.0/cuda-11.8.0-vfixfmc/include -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -fPIC -std=c++17 -O3
 post_cflags = 
-cuda_cflags = -DTORCH_EXTENSION_NAME=fused_dense_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/TH -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/THC -isystem /opt/nvidia/hpc_sdk/Linux_x86_64/24.5/cuda/12.4/include -isystem /pscratch/sd/c/cheryunl/miniconda3/envs/solo/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_80,code=compute_80 -gencode=arch=compute_80,code=sm_80 --compiler-options '-fPIC' -O3 -gencode arch=compute_70,code=sm_70 --use_fast_math -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__ -gencode arch=compute_80,code=sm_80 -std=c++17
+cuda_cflags = -ccbin /sw/spack/deltas11-2023-03/apps/linux-rhel8-x86_64/gcc-8.5.0/gcc-11.4.0-yycklku/bin/gcc -DTORCH_EXTENSION_NAME=fused_dense_cuda -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\"_gcc\" -DPYBIND11_STDLIB=\"_libstdcpp\" -DPYBIND11_BUILD_ABI=\"_cxxabi1011\" -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/TH -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/lib/python3.10/site-packages/torch/include/THC -isystem /sw/spack/deltas11-2023-03/apps/linux-rhel8-zen3/gcc-11.4.0/cuda-11.8.0-vfixfmc/include -isystem /work/hdd/bcwu/cheryll/miniconda3/envs/solo/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_80,code=compute_80 -gencode=arch=compute_80,code=sm_80 --compiler-options '-fPIC' -O3 -gencode arch=compute_70,code=sm_70 --use_fast_math -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__ -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90 -std=c++17
 cuda_post_cflags = 
 cuda_dlink_post_cflags = 
-ldflags = -shared -L/pscratch/sd/c/cheryunl/miniconda3/envs/solo/lib/python3.10/site-packages/torch/lib -lc10 -lc10_cuda -ltorch_cpu -ltorch_cuda -ltorch -ltorch_python -L/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/cuda/12.4/lib64 -lcudart
+ldflags = -shared -L/work/hdd/bcwu/cheryll/miniconda3/envs/solo/lib/python3.10/site-packages/torch/lib -lc10 -lc10_cuda -ltorch_cpu -ltorch_cuda -ltorch -ltorch_python -L/sw/spack/deltas11-2023-03/apps/linux-rhel8-zen3/gcc-11.4.0/cuda-11.8.0-vfixfmc/lib64 -lcudart
 
 rule compile
   command = $cxx -MMD -MF $out.d $cflags -c $in -o $out $post_cflags
@@ -24,8 +24,8 @@ rule cuda_compile
 rule link
   command = $cxx $in $ldflags -o $out
 
-build fused_weight_gradient_dense.o: compile /pscratch/sd/c/cheryunl/INTJ_test/Megatron-LLM/megatron/fused_kernels/fused_weight_gradient_dense.cpp
-build fused_weight_gradient_dense.cuda.o: cuda_compile /pscratch/sd/c/cheryunl/INTJ_test/Megatron-LLM/megatron/fused_kernels/fused_weight_gradient_dense.cu
+build fused_weight_gradient_dense.o: compile /work/hdd/bcwu/cheryll/INTJ/Megatron-LLM/megatron/fused_kernels/fused_weight_gradient_dense.cpp
+build fused_weight_gradient_dense.cuda.o: cuda_compile /work/hdd/bcwu/cheryll/INTJ/Megatron-LLM/megatron/fused_kernels/fused_weight_gradient_dense.cu
 
 
 
