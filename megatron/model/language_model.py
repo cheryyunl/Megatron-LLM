@@ -401,7 +401,7 @@ class TransformerLanguageModel(MegatronModule):
             world_size = megatron.core.mpu.get_tensor_model_parallel_world_size()
             extra_kwargs = megatron.model.transformer._args_to_kwargs(args)
             # NOTE: we explicitly disable sequence_parallel_enabled for the pointcloud patch embedding
-            # since the input to self.embed_vision_patch is NOT YET in sequence parallel format
+            # since the input to self.embed_point_patch is NOT YET in sequence parallel format
             extra_kwargs["sequence_parallel_enabled"] = False
             # print(f"extra_kwargs: {extra_kwargs}")
             self.embed_point_patch = megatron.core.tensor_parallel.ColumnParallelLinear(
@@ -704,7 +704,7 @@ class TransformerLanguageModel(MegatronModule):
                     # for backward compatibility.
                     state_dict_ = {}
                     for key in state_dict.keys():
-                        if 'embed_vision_patch' in key:
+                        if 'embed_point_patch' in key:
                             state_dict_[key] = state_dict[key]
                 self.embed_point_patch.load_state_dict(state_dict_, strict=strict)
 
