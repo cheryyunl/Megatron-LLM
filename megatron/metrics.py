@@ -17,7 +17,7 @@ class MetricInput:
         else:
             assert len(batch) == 7
             (self.tokens, self.labels, self.loss_mask, self.attention_mask, 
-             self.position_ids, self.vision_patch_indices, self.vision_patches) = batch
+             self.position_ids, self.point_patch_indices, self.point_patches) = batch
         self.output = output
         self.loss = loss
         # lazy parameters
