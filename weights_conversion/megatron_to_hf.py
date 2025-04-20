@@ -306,7 +306,7 @@ def write_mistral_model(
             "model.embed_tokens.weight": loaded['embedding']["word_embeddings.weight"]
         }
         if multimodal:
-            state_dict["model.embed_vision_patch.weight"] = loaded['embed_vision_patch']["weight"]
+            state_dict["model.embed_point_patch.weight"] = loaded['embed_point_patch']["weight"]
 
         for k, v in state_dict.items():
             index_dict["weight_map"][k] = filename
