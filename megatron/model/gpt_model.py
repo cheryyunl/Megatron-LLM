@@ -83,8 +83,8 @@ class GPTModel(MegatronModule):
 
     def forward(self, input_ids, position_ids, attention_mask, labels=None,
                 tokentype_ids=None, inference_params=None,
-                vision_patch_indices: torch.LongTensor = None,  # (batch_size, seq_length), "-1" for text token
-                vision_patches: torch.FloatTensor = None,  # (n_patches, 32 * 32 * 3)
+                point_patch_indices: torch.LongTensor = None,  # (batch_size, seq_length), "-1" for text token
+                point_patches: torch.FloatTensor = None,  # (n_patches, 32 * 32 * 3)
                 ):
 
         lm_output = self.language_model(
@@ -92,8 +92,8 @@ class GPTModel(MegatronModule):
             position_ids,
             attention_mask,
             inference_params=inference_params,
-            vision_patch_indices=vision_patch_indices,
-            vision_patches=vision_patches,
+            point_patch_indices=point_patch_indices,
+            point_patches=point_patches,
         )
 
         if self.post_process:
